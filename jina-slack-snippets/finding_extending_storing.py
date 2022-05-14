@@ -19,12 +19,12 @@ with documents:
 # find d in da by random embedding (nearest neighbor)
 result = documents.find(np.random.random(3))
 assert isinstance(result, DocumentArray)
-print(result)
-result.summary()
 assert len(result) != 0 # should return da with matches
 d = Document(text="i dont have matches set yet")
 assert len(d.scores.items()) == 0 # show that a random new d will not start with any scores attribute set. this will be set when we find, and thats why result above has a scores attribute set as a "consequence" of being found nearest neighbor wise
 assert len(result[0].scores) != 0 # checks to make sure first d in da has ".score" attribute now set as a "consequence" of being "found" by documents.find()
+print(result)
+result.summary()
 
 """
 Reminder: below returns list NOT documentarray
