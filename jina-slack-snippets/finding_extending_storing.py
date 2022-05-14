@@ -31,12 +31,13 @@ Reminder: below returns list NOT documentarray
 """
 result = documents.find(Document(embedding=np.array([0,0,0]), tags={"channel_id" : "0"}), limit=2, metric="cosine")
 assert len(result) != 0 # expecting 2 nearest neighbor matches 
-assert isinstance(result, list) # NOTE: list
+assert isinstance(result, list) # NOTE: returns list of documentarray objects
+assert len(result[0][0].scores) != 0 # element 1 in returned list of documentarrays should have a score because its the consequence of being "found"
 print(result)
 result[0].summary()
 print(result[0].embeddings)
 
-# intentionally search for d that doesnt exist in D to understand this behavior
+# intentionally search for d that doesnt exist in da to understand this behavior
 result = documents.find({'modality': {'$eq': 'D'}})
 assert isinstance(result, DocumentArray)
 assert len(result) == 0 # expecting not to find this d
