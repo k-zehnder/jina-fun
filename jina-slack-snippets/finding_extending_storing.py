@@ -26,6 +26,9 @@ d = Document(text="i dont have matches set yet")
 assert len(d.scores.items()) == 0 # show that a random new d will not start with any scores attribute set. this will be set when we find, and thats why result above has a scores attribute set as a "consequence" of being found nearest neighbor wise
 assert len(result[0].scores) != 0 # checks to make sure first d in da has ".score" attribute now set as a "consequence" of being "found" by documents.find()
 
+"""
+Reminder: below returns list NOT documentarray
+"""
 result = documents.find(Document(embedding=np.array([0,0,0]), tags={"channel_id" : "0"}), limit=2, metric="cosine")
 assert len(result) != 0 # expecting 2 nearest neighbor matches 
 assert isinstance(result, list) # NOTE: list
