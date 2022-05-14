@@ -2,6 +2,7 @@ import numpy as np
 from docarray import DocumentArray, Document
 
 
+# num docs, dims
 N, D = 100, 3
 
 documents = DocumentArray(
@@ -11,12 +12,9 @@ documents = DocumentArray(
     })
 
 with documents:
-    # documents.extend([
-    #     Document(embedding=np.random.random(D), tags={'channel_id': str(i)}) for i in range(N)
-    # ])
     documents.extend([Document(embedding=np.random.random(D), tags={"channel_id" : str(i)}) for i in range(D)])
-# print(help(result.find))
 
+# print(help(result.find))
 
 # find d in da by random embedding (nearest neighbor)
 result = documents.find(np.random.random(3))
