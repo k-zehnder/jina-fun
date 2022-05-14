@@ -12,7 +12,7 @@ documents = DocumentArray(
     })
 
 with documents:
-    documents.extend([Document(embedding=np.random.random(D), tags={"channel_id" : str(i)}) for i in range(D)])
+    documents.extend([Document(embedding=np.random.random(D), tags={"channel_id" : str(i)}) for i in range(N)])
 
 # print(help(result.find))
 
