@@ -18,40 +18,41 @@ with documents:
 
 # find d in da by random embedding (nearest neighbor)
 result = documents.find(np.random.random(3))
-print(type(result)) # da
+assert isinstance(result, DocumentArray)
 print(result)
 result.summary()
-assert len(result) != 0
+assert len(result) != 0 # should return da with matches
 d = Document(text="i dont have matches set yet")
 assert len(d.scores.items()) == 0 # show that a random new d will not start with any scores attribute set. this will be set when we find, and thats why result above has a scores attribute set as a "consequence" of being found nearest neighbor wise
 assert len(result[0].scores) != 0 # checks to make sure first d in da has ".score" attribute now set as a "consequence" of being "found" by documents.find()
 
 result = documents.find(Document(embedding=np.array([0,0,0]), tags={"channel_id" : "0"}), limit=2, metric="cosine")
-print(type(result)) # NOTE: list
+assert len(result) != 0 # expecting 2 nearest neighbor matches 
+assert isinstance(result, list) # NOTE: list
 print(result)
 result[0].summary()
 print(result[0].embeddings)
 
 # intentionally search for d that doesnt exist in D to understand this behavior
 result = documents.find({'modality': {'$eq': 'D'}})
-print(type(result)) # da
+assert isinstance(result, DocumentArray)
 assert len(result) == 0 # expecting not to find this d
 print(result)
 result.summary()
 
-# find d in da by specific tag number
-some_doc = Document(channel_id=str(10005))
-documents.extend([some_doc])
-result = documents.find({"tags__channel_id" : {"$eq" : "10005"}})
-print(type(result))
+# selecting for equality of tags called "channel_id"
+result = documents.find({"tags__channel_id" : {"$eq" : "42"}})
+assert isinstance(result, DocumentArray)
 assert len(result) != 0
 print(result)
 result.summary()
-result[0].summary()
 
-# # same as above just selecting for equality for different value
-result = documents.find({"tags__channel_id" : {"$eq" : "42"}})
-assert len(result) == 0
-print(type(result))
+
+# finding again by embedding random --> e.g. [0.17649021 0.93252586 0.89824643]
+result = documents.find(np.random.random(D))
+assert len(result) != 0
+assert isinstance(result, DocumentArray)
+print(type(result)) # NOTE: list
 print(result)
-result.summary()
+result[0].summary()
+print(result[0].embedding) # singular
