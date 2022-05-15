@@ -64,9 +64,8 @@ for d in resp:
 
     final.append(obj)
     # print(obj)
-# print(final)
+print(final)
 
-# resp.plot_image_sprites()
 for dc in final:
     # print(dc)
     print(f"imgs len {len(dc.images)}")
