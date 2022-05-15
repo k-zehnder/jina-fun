@@ -57,12 +57,3 @@ for dc in final:
     print(f"txt len {len(dc.texts)}")
     print(f"doc0 tags: {dc.tags}")
     print("\n\n")
-
-# sentencizer = Executor.from_hub(
-#     "jinahub://SpacySentencizer/v0.4",
-#     install_requirements=True,
-# )
-# sentencizer.segment(doc.chunks, parameters={})
-# sentencizer.segment(chunk, parameters={})
-# print(sentencizer)
-# print(final)
