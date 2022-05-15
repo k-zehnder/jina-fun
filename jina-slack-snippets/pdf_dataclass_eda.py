@@ -23,6 +23,7 @@ f = Flow().add(
 )
 with f:
     resp = f.post(on='/craft', inputs=docs) # returns -> documentarray with 2 documents (1 document in documentarray per pdf)
+    assert isinstance(resp, DocumentArray)
     print(resp)
     print(type(resp)) # documentarrayinmemory
     print(len(resp)) # 2
