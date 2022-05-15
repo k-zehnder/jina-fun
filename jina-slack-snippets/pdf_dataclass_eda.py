@@ -38,12 +38,12 @@ resp[1].summary()
 final = []
 for channel_id, d in enumerate(resp):
     obj = PDFPage(
-        images=[], 
-        texts=[], 
-        tags={
-            "doc0_uri" : d.uri, 
-            "channel_id" : str(channel_id)
-        })
+            images=[], 
+            texts=[], 
+            tags={
+                "doc0_uri" : d.uri, 
+                "channel_id" : str(channel_id)
+            })
     for chunk in d.chunks:
         assert chunk.parent_id == d.id
         if chunk.mime_type == "image/*":
@@ -63,7 +63,7 @@ for dc in final:
     # print(f"doc0 tags: {dc.}")
     print("\n\n")
 
-print(resp["@cc"])
+print(resp["@c"])
 # wanted_channel_id = "1"
 # r = resp.find({"tags__channel_id" : {"$eq" : wanted_channel_id}})
 # print(type(r))
