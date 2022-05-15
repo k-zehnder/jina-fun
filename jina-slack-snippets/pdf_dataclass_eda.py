@@ -44,7 +44,7 @@ resp[1].summary()
 final = []
 for d in resp:
     assert isinstance(d, Document)
-    obj = PDFPage(
+    dc = PDFPage(
             images=[], 
             texts=[], 
             tags={
@@ -54,11 +54,11 @@ for d in resp:
     for chunk in d.chunks:
         assert chunk.parent_id == d.id
         if chunk.mime_type == "image/*":
-            obj.images.append(chunk.tensor)
+            dc.images.append(chunk.tensor)
         else:
-            obj.texts.append(chunk.text)
-    final.append(obj)
-    # print(obj)
+            dc.texts.append(chunk.text)
+    final.append(dc)
+    # print(dc)
 print(final)
 
 # -------------- Inspect dataclass objects
