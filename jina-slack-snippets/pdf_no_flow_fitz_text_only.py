@@ -6,7 +6,7 @@ from docarray import Document, DocumentArray
 import fitz
 
 
-pdf = fitz.open('./data/pdf/sr71_medium.pdf')
+pdf = fitz.open('jina-slack-snippets/data/pdf/sr71_medium.pdf')
 da = DocumentArray([Document(text=page.get_text().split("\n")) for page in pdf])
 
 da.summary()
