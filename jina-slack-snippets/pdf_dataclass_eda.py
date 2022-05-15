@@ -16,6 +16,8 @@ class PDFPage:
     texts: List[Text]
     tags: dict # primitive python type --> tag on parent
 
+# e = Executor.from_hub("jinahub+docker://PDFSegmenter")
+# resp = e.craft(docs)
 f = Flow().add(
     uses='jinahub://PDFSegmenter',
 )
