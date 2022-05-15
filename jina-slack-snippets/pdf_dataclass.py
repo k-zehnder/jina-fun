@@ -1,28 +1,9 @@
-"""
-This script extracts TEXT only from PDF. It will not do anything with images.
-"""
-
-#pip install pymupdf
 from typing import List, Dict
 from docarray import Document, DocumentArray, dataclass
 from docarray.typing import Image, Text, JSON
 from jina import Flow, Executor, requests
-# import fitz
-import pikepdf
 
 
-# pdf = fitz.open('./data/pdf/sr71_medium.pdf')
-# da = DocumentArray([Document(text=page.get_text().split("\n")) for page in pdf])
-
-# da.summary()
-# all_docs = da[:5, "text"]
-# for doc in all_docs:
-#     print(doc)
-#     print("\n\n")
-# print(da[:,'text'])
-
-############################
-# docs = DocumentArray.from_files(f"./data/pdf/*.pdf", recursive=True, size=num_docs)
 d1 = Document(uri="/home/plusplusaviator/Desktop/python/jina-fun/jina-slack-snippets/data/pdf/cats_are_awesome.pdf")
 d2 = Document(uri="/home/plusplusaviator/Desktop/python/jina-fun/jina-slack-snippets/data/pdf/somatosensory.pdf")
 docs = DocumentArray([d1, d2])
