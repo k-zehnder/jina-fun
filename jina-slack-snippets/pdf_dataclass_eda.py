@@ -40,6 +40,7 @@ resp[1].summary()
 
 final = []
 for channel_id, d in enumerate(resp):
+    assert isinstance(d, Document)
     obj = PDFPage(
             images=[], 
             texts=[], 
