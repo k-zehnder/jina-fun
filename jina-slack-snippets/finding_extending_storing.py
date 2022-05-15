@@ -27,12 +27,12 @@ print(result)
 result.summary()
 
 """
-Reminder: below returns list NOT documentarray
+Reminder: below returns list of documentarray NOT documentarray
 """
 result = documents.find(Document(embedding=np.array([0,0,0]), tags={"channel_id" : "0"}), limit=2, metric="cosine")
-assert len(result) != 0 # expecting 2 nearest neighbor matches 
 assert isinstance(result, list) # NOTE: returns list of documentarray objects
-assert len(result[0][0].scores) != 0 # element 1 in returned list of documentarrays should have a score because its the consequence of being "found"
+assert len(result) != 0 # expecting 2 nearest neighbor matches 
+assert len(result[0][0].scores) != 0 # element 0 in returned list of documentarrays should have a element 0 with a score attribute set because its the consequence of being "found"
 print(result)
 result[0].summary()
 print(result[0].embeddings)
