@@ -24,7 +24,7 @@ import pikepdf
 ############################
 # docs = DocumentArray.from_files(f"./data/pdf/*.pdf", recursive=True, size=num_docs)
 d1 = Document(uri="/home/plusplusaviator/Desktop/python/jina-fun/jina-slack-snippets/data/pdf/cats_are_awesome.pdf")
-d2 = Document(uri="/home/plusplusaviator/Desktop/python/jina-fun/jina-slack-snippets/data/pdf/sample_pdf.pdf")
+d2 = Document(uri="/home/plusplusaviator/Desktop/python/jina-fun/jina-slack-snippets/data/pdf/somatosensory.pdf")
 docs = DocumentArray([d1, d2])
 
 
@@ -37,15 +37,20 @@ f = Flow().add(
     uses='jinahub://PDFSegmenter',
 )
 with f:
-    resp = f.post(on='/craft', inputs=docs)
+    resp = f.post(on='/craft', inputs=docs) # returns -> documentarray with 2 documents (1 document in documentarray per pdf)
     print(resp)
     print(type(resp)) # documentarrayinmemory
-    # print(len(resp)) # 2
-    print(f'{[c.mime_type for c in resp[0].chunks]}')
+    print(len(resp)) # 2
+    for idx, doc in enumerate(resp):
+        for chunk in doc.chunks:
+            print(f">pdf #: {idx} - mime_type: {chunk.mime_type}")
+    # print(f'{[c.mime_type for c in resp[0].chunks]}')
+
 
 resp.summary()
 print("--\n\n\n")
 resp[0].summary()
+resp[1].summary()
 
 final = []
 for d in resp:
@@ -55,6 +60,7 @@ for d in resp:
         if chunk.mime_type == "image/*":
             obj.images.append(chunk.tensor)
         else:
+            obj.texts.append(chunk.text)
             # sentencizer = Executor.from_hub(
             #     "jinahub://SpacySentencizer/v0.4",
             #     install_requirements=True,
@@ -63,7 +69,22 @@ for d in resp:
             # sentencizer.segment(chunk, parameters={})
             # print(sentencizer)
 
-            obj.texts.append(chunk.text)
     final.append(obj)
-    print(obj)
+    # print(obj)
+# print(final)
+
+# resp.plot_image_sprites()
+for dc in final:
+    # print(dc)
+    print(f"imgs len {len(dc.images)}")
+    print(f"txt len {len(dc.texts)}")
+    print("\n\n")
+
+# sentencizer = Executor.from_hub(
+#     "jinahub://SpacySentencizer/v0.4",
+#     install_requirements=True,
+# )
+# sentencizer.segment(doc.chunks, parameters={})
+# sentencizer.segment(chunk, parameters={})
+# print(sentencizer)
 # print(final)
