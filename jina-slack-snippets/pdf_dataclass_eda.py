@@ -70,9 +70,3 @@ for dc in final:
     print(f"doc0 tags: {dc.tags}")
     # print(f"doc0 tags: {dc.}")
     print("\n\n")
-
-print(resp["@c"])
-# wanted_channel_id = "1"
-r = resp.find({"tags__channel_id" : {"$gt" : 20}})
-print(type(r))
-print(r)
