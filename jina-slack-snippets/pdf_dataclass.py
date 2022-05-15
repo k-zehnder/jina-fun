@@ -2,6 +2,7 @@ from typing import List, Dict
 from docarray import Document, DocumentArray, dataclass
 from docarray.typing import Image, Text, JSON
 from jina import Flow, Executor, requests
+import cv2
 
 
 d1 = Document(uri="/home/plusplusaviator/Desktop/python/jina-fun/jina-slack-snippets/data/pdf/cats_are_awesome.pdf")
@@ -40,9 +41,10 @@ for d in resp:
         assert d.id == chunk.parent_id
         if chunk.mime_type == "image/*":
             obj.images.append(chunk.tensor)
+            # cv2.imshow("window", chunk.tensor)
+            # cv2.waitKey()
         else:
             obj.texts.append(chunk.text)
-
     final.append(obj)
     # print(obj)
 print(final)
