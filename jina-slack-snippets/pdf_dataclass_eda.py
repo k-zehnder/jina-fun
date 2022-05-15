@@ -11,11 +11,10 @@ d1 = Document(uri="/home/plusplusaviator/Desktop/python/jina-fun/jina-slack-snip
 d2 = Document(uri="/home/plusplusaviator/Desktop/python/jina-fun/jina-slack-snippets/data/pdf/somatosensory.pdf")
 docs = DocumentArray([d1, d2])
 
-# -------------- Build dataclass objects from response
 @dataclass
 class PDFPage:
-    images: List[Image]
-    texts: List[Text]
+    images: List[Image] # docarray type --> sibling doc
+    texts: List[Text] # docarray type --> sibling doc
     tags: dict # primitive python type --> tag on parent
 
 
@@ -50,7 +49,7 @@ for d in resp:
             texts=[], 
             tags={
                 "doc0_uri" : d.uri, 
-                "channel_id" : 5 #np.random.randint(1, 100)
+                "channel_id" : np.random.randint(1, 100)
             })
     for chunk in d.chunks:
         assert chunk.parent_id == d.id
