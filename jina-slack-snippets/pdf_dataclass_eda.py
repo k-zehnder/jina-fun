@@ -14,6 +14,7 @@ docs = DocumentArray([d1, d2])
 class PDFPage:
     images: List[Image]
     texts: List[Text]
+    tags: dict # primitive python type --> tag on parent
 
 f = Flow().add(
     uses='jinahub://PDFSegmenter',
@@ -36,7 +37,7 @@ resp[1].summary()
 
 final = []
 for d in resp:
-    obj = PDFPage(images=[], texts=[])
+    obj = PDFPage(images=[], texts=[], tags={"doc0_uri" : d.uri})
     for chunk in d.chunks:
         assert d.id == chunk.parent_id
         if chunk.mime_type == "image/*":
@@ -51,8 +52,10 @@ print(final)
 
 for dc in final:
     # print(dc)
+    print("\n\n")
     print(f"imgs len {len(dc.images)}")
     print(f"txt len {len(dc.texts)}")
+    print(f"doc0 tags: {dc.tags}")
     print("\n\n")
 
 # sentencizer = Executor.from_hub(
