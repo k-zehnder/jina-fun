@@ -38,6 +38,7 @@ print("--\n\n\n")
 resp[0].summary()
 resp[1].summary()
 
+# -------------- Build dataclass objects from response
 final = []
 for channel_id, d in enumerate(resp):
     assert isinstance(d, Document)
