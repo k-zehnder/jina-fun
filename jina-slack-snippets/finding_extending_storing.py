@@ -31,7 +31,7 @@ Reminder: below returns list of documentarray NOT documentarray
 """
 result = documents.find(Document(embedding=np.array([0,0,0]), tags={"channel_id" : "0"}), limit=2, metric="cosine")
 assert isinstance(result, list) # NOTE: returns list of documentarray objects
-assert len(result) != 0 # expecting 2 nearest neighbor matches 
+assert len(result) == 1 # expecting one documentarray returned which in turn has 2 nearest neighbor matches 
 assert len(result[0][0].scores) != 0 # element 0 in returned list of documentarrays should have a element 0 with a score attribute set because its the consequence of being "found"
 print(result)
 result[0].summary()
