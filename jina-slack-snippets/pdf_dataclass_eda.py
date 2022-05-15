@@ -2,20 +2,24 @@ from typing import List, Dict
 from docarray import Document, DocumentArray, dataclass
 from docarray.typing import Image, Text, JSON
 from jina import Flow, Executor, requests
-import cv2
+import random
+import numpy as np
 
 
+# -------------- Construct DocumentArray
 d1 = Document(uri="/home/plusplusaviator/Desktop/python/jina-fun/jina-slack-snippets/data/pdf/cats_are_awesome.pdf")
 d2 = Document(uri="/home/plusplusaviator/Desktop/python/jina-fun/jina-slack-snippets/data/pdf/somatosensory.pdf")
 docs = DocumentArray([d1, d2])
 
-
+# -------------- Build dataclass objects from response
 @dataclass
 class PDFPage:
     images: List[Image]
     texts: List[Text]
     tags: dict # primitive python type --> tag on parent
 
+
+# -------------- Build Flow
 # e = Executor.from_hub("jinahub+docker://PDFSegmenter")
 # resp = e.craft(docs)
 f = Flow().add(
@@ -23,6 +27,7 @@ f = Flow().add(
 )
 with f:
     resp = f.post(on='/craft', inputs=docs) # returns -> documentarray with 2 documents (1 document in documentarray per pdf)
+    # print(f'{[c.mime_type for c in resp[0].chunks]}')
     assert isinstance(resp, DocumentArray)
     print(resp)
     print(type(resp)) # documentarrayinmemory
@@ -30,8 +35,6 @@ with f:
     for idx, doc in enumerate(resp):
         for chunk in doc.chunks:
             print(f">pdf #: {idx} - mime_type: {chunk.mime_type}")
-    # print(f'{[c.mime_type for c in resp[0].chunks]}')
-
 
 resp.summary()
 print("--\n\n\n")
@@ -40,14 +43,14 @@ resp[1].summary()
 
 # -------------- Build dataclass objects from response
 final = []
-for channel_id, d in enumerate(resp):
+for d in resp:
     assert isinstance(d, Document)
     obj = PDFPage(
             images=[], 
             texts=[], 
             tags={
                 "doc0_uri" : d.uri, 
-                "channel_id" : str(channel_id)
+                "channel_id" : 5 #np.random.randint(1, 100)
             })
     for chunk in d.chunks:
         assert chunk.parent_id == d.id
@@ -59,6 +62,7 @@ for channel_id, d in enumerate(resp):
     # print(obj)
 print(final)
 
+# -------------- Inspect dataclass objects
 for dc in final:
     # print(dc)
     print("\n\n")
@@ -70,6 +74,6 @@ for dc in final:
 
 print(resp["@c"])
 # wanted_channel_id = "1"
-# r = resp.find({"tags__channel_id" : {"$eq" : wanted_channel_id}})
-# print(type(r))
-# print(r)
+r = resp.find({"tags__channel_id" : {"$gt" : 20}})
+print(type(r))
+print(r)
