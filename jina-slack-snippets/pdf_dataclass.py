@@ -61,13 +61,6 @@ for d in resp:
             obj.images.append(chunk.tensor)
         else:
             obj.texts.append(chunk.text)
-            # sentencizer = Executor.from_hub(
-            #     "jinahub://SpacySentencizer/v0.4",
-            #     install_requirements=True,
-            # )
-            # sentencizer.segment(doc.chunks, parameters={})
-            # sentencizer.segment(chunk, parameters={})
-            # print(sentencizer)
 
     final.append(obj)
     # print(obj)
