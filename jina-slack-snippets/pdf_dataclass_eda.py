@@ -36,18 +36,20 @@ resp[0].summary()
 resp[1].summary()
 
 final = []
-count = 0
-for d in resp:
-    obj = PDFPage(images=[], texts=[], tags={"doc0_uri" : d.uri})
+for channel_id, d in enumerate(resp):
+    obj = PDFPage(
+        images=[], 
+        texts=[], 
+        tags={
+            "doc0_uri" : d.uri, 
+            "channel_id" : str(channel_id)
+        })
     for chunk in d.chunks:
         assert chunk.parent_id == d.id
         if chunk.mime_type == "image/*":
             obj.images.append(chunk.tensor)
-            # cv2.imshow("window", chunk.tensor)
-            # cv2.waitKey()
         else:
             obj.texts.append(chunk.text)
-        count += 1
     final.append(obj)
     # print(obj)
 print(final)
@@ -60,3 +62,9 @@ for dc in final:
     print(f"doc0 tags: {dc.tags}")
     # print(f"doc0 tags: {dc.}")
     print("\n\n")
+
+print(resp["@cc"])
+# wanted_channel_id = "1"
+# r = resp.find({"tags__channel_id" : {"$eq" : wanted_channel_id}})
+# print(type(r))
+# print(r)
