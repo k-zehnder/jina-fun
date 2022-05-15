@@ -39,7 +39,7 @@ final = []
 for d in resp:
     obj = PDFPage(images=[], texts=[], tags={"doc0_uri" : d.uri})
     for chunk in d.chunks:
-        assert chunk.id == d.parent_id
+        assert chunk.parent_id == d.id
         if chunk.mime_type == "image/*":
             obj.images.append(chunk.tensor)
             # cv2.imshow("window", chunk.tensor)
