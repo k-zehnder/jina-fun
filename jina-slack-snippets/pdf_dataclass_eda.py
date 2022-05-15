@@ -36,6 +36,7 @@ resp[0].summary()
 resp[1].summary()
 
 final = []
+count = 0
 for d in resp:
     obj = PDFPage(images=[], texts=[], tags={"doc0_uri" : d.uri})
     for chunk in d.chunks:
@@ -46,6 +47,7 @@ for d in resp:
             # cv2.waitKey()
         else:
             obj.texts.append(chunk.text)
+        count += 1
     final.append(obj)
     # print(obj)
 print(final)
@@ -56,4 +58,5 @@ for dc in final:
     print(f"imgs len {len(dc.images)}")
     print(f"txt len {len(dc.texts)}")
     print(f"doc0 tags: {dc.tags}")
+    # print(f"doc0 tags: {dc.}")
     print("\n\n")
