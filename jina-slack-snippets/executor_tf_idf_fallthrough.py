@@ -1,5 +1,6 @@
 from docarray import Document, DocumentArray
 from jina import Flow, Executor, requests
+import numpy as np
 
 
 class TFidf(Executor):
@@ -44,11 +45,15 @@ f = (
 d1 = Document(text="I am doc1")
 d2 = Document(text="I am an alien from mars doc2")
 d3 = Document(text="I am an pilot from the sun doc3")
-inp = DocumentArray([d1, d2, d3])
+d4 = Document(embedding=np.random.random(3))
+mixed_da = DocumentArray([d1, d2, d3])
+
+# show how you would get just the d in this da using a text filter
+text_filter = mixed_da.find({"text" : {"$exists" : True}})
+assert len(text_filter) < 4 # filter excludes d without .text set
 
 with f:
-    # r = f.post(on="/prep", inputs=inp)
-    r = f.index(inp) # best practice for production re: docs
+    r = f.index(text_filter) # best practice to use f.index() (not f.post()) for indexing re: docs 
     print(f"results: {r}")
     
 print("[INFO] program complete.")
