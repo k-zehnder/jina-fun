@@ -11,13 +11,13 @@ class TFidf(Executor):
     # @requests(on="/prep")
     # @requests(on="/index") # use this decorator when want to do f.index(inp)
     def prep_documents(self, docs, **kwargs):
+        # split_docs = list(map(lambda d: d.text.split(), docs))
         vocab = set()
         for doc in docs:
             for word in doc.text.split(" "):
                 if word not in vocab:
                     vocab.add(word)
         voc = DocumentArray(Document(voc=list(vocab)))
-        # voc.summary()
         return voc
 
 class Debugger(Executor):
