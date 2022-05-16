@@ -49,7 +49,7 @@ inp = DocumentArray([d1, d2, d3])
 
 with f:
     # r = f.post(on="/prep", inputs=inp)
-    r = f.index(inp)
+    r = f.index(inp) # best practice for production re: docs
     print(f"results: {r}")
     
 print("[INFO] program complete.")
