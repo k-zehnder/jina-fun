@@ -28,8 +28,11 @@ class Debugger(Executor):
 
     @requests 
     def show_vocab(self, docs, **kwargs):
-        print(docs[:, ("id", "tags__vocab")])
-
+        if self.parameter == "active":
+            print(docs[:, ("id", "tags__vocab")])
+        else:
+            print("[INFO] not active. change default state in flow definition to toggle.")
+            
 f = (
     Flow()
     .add(
@@ -37,7 +40,7 @@ f = (
         uses_with={"parameter" : "some default executor state 1."}
     ).add(
         uses=Debugger,
-        uses_with={"parameter" : "some default executor state 2."}
+        uses_with={"parameter" : "active"}
     )
 )
 d1 = Document(text="I am doc1")
