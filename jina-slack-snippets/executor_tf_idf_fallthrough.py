@@ -1,4 +1,3 @@
-from types import new_class
 from docarray import Document, DocumentArray
 from jina import Flow, Executor, requests
 import numpy as np
