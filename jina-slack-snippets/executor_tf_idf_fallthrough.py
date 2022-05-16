@@ -1,3 +1,4 @@
+from types import new_class
 from docarray import Document, DocumentArray
 from jina import Flow, Executor, requests
 import numpy as np
@@ -7,15 +8,19 @@ class TFidf(Executor):
     def __init__(self, parameter, **kwargs):
         super().__init__(**kwargs)
         self.parameter = parameter
-    
+        self.docs_bows = {}
+        self.vocab = set()
+
     @requests
     def prep_documents(self, docs, **kwargs):
-        vocab = set()
         for doc in docs:
+            self.docs_bows[doc.id] = self.docs_bows.get(doc.id, [])
             for word in doc.text.split(" "):
-                if word not in vocab:
-                    vocab.add(word)
-        return DocumentArray(Document(vocab=list(vocab)))
+                self.docs_bows[doc.id].append(word)
+        for key in self.docs_bows:
+            for word in self.docs_bows[key]:
+                self.vocab.add(word)
+        return DocumentArray(Document(vocab=list(self.vocab)))
 
 class Debugger(Executor):
     def __init__(self, parameter, **kwargs):
