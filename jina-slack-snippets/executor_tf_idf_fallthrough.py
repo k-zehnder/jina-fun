@@ -17,7 +17,7 @@ class TFidf(Executor):
             for word in doc.text.split(" "):
                 if word not in vocab:
                     vocab.add(word)
-        voc = DocumentArray(Document(voc=list(vocab)))
+        voc = DocumentArray(Document(vocab=list(vocab)))
         return voc
 
 class Debugger(Executor):
@@ -30,7 +30,7 @@ class Debugger(Executor):
     # if you didnt use a "bare" requests decorator, then this Executor wouldnt be visited by the Flow because it wouldn't know "where to go"
     def show_vocab(self, docs, **kwargs):
         docs.summary()
-        print(docs[:, ("id", "tags__voc")])
+        print(docs[:, ("id", "tags__vocab")])
 
 f = (
     Flow()
