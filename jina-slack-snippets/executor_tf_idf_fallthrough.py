@@ -8,11 +8,8 @@ class TFidf(Executor):
         super().__init__(**kwargs)
         self.parameter = parameter
     
-    @requests # use this decorator for f.index(inp) OR when want to go here "by default"
-    # @requests(on="/prep")
-    # @requests(on="/index") # use this decorator when want to do f.index(inp)
+    @requests
     def prep_documents(self, docs, **kwargs):
-        # split_docs = list(map(lambda d: d.text.split(), docs))
         vocab = set()
         for doc in docs:
             for word in doc.text.split(" "):
@@ -26,10 +23,7 @@ class Debugger(Executor):
         self.parameter = parameter
 
     @requests 
-    # NOTE: this "bare" requests is how we get the above Executor to "fallthrough" the flow to this executor b/c thats how the Flow specifies how out Documents should go through the Flow
-    # if you didnt use a "bare" requests decorator, then this Executor wouldnt be visited by the Flow because it wouldn't know "where to go"
     def show_vocab(self, docs, **kwargs):
-        docs.summary()
         print(docs[:, ("id", "tags__vocab")])
 
 f = (
@@ -50,7 +44,7 @@ mixed_da = DocumentArray([d1, d2, d3])
 
 # show how you would get just the d in this da using a text filter
 text_filter = mixed_da.find({"text" : {"$exists" : True}})
-assert len(text_filter) < 4 # filter excludes d without .text set
+assert len(text_filter) == 3 # filter excludes d without .text set
 
 with f:
     r = f.index(text_filter) # best practice to use f.index() (not f.post()) for indexing re: docs 
