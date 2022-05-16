@@ -17,8 +17,7 @@ class TFidf(Executor):
             for word in doc.text.split(" "):
                 if word not in vocab:
                     vocab.add(word)
-        voc = DocumentArray(Document(vocab=list(vocab)))
-        return voc
+        return DocumentArray(Document(vocab=list(vocab)))
 
 class Debugger(Executor):
     def __init__(self, parameter, **kwargs):
