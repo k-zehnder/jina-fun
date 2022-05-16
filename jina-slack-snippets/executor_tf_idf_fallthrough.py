@@ -7,7 +7,7 @@ class TFidf(Executor):
         super().__init__(**kwargs)
         self.parameter = parameter
     
-    @requests
+    @requests # use this decorator for f.index(inp) OR when want to go here "by default"
     # @requests(on="/prep")
     # @requests(on="/index") # use this decorator when want to do f.index(inp)
     def prep_documents(self, docs, **kwargs):
