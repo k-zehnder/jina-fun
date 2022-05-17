@@ -33,8 +33,8 @@ class TFIDFer(Executor):
         bow = [doc.text.lower().split(" ") for doc in docs]
         for bag in bow:
             self.bows.append(Document(tags={"data" : bag}))
-            for letter in bag:
-                self.vocab.add(letter)
+            for word in bag:
+                self.vocab.add(word)
         return self.bows
 
 f = (
