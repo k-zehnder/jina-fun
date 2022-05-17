@@ -21,17 +21,10 @@ class TFIDFer(Executor):
     def compute(self, bows_docarray):
         res = []
         for doc in bows_docarray:
-            tmp = []
-            for voc in self.vocab:
-                tmp.append(self.tfidf(voc, doc))
-            res.append(tmp)
+            res.append([self.tfidf(voc, doc) for voc in self.vocab])
         return res
 
     def tfidf(self, word, sentence):
-        # s = 0
-        # for doc in self.bows:
-        #     if word in doc.tags.get("data"):
-        #         s += 1
         tf = sentence.tags.get("data").count(word) / len(sentence.tags.get("data"))
         idf = np.log10(len(self.bows) / sum([1 for doc in self.bows if word in doc.tags.get("data")]))
         return round(tf*idf, 4)
