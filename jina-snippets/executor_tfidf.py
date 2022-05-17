@@ -14,8 +14,28 @@ class TFIDFer(Executor):
     @requests
     def run(self, docs, **kwargs):
         bows_da = self.preprocess(docs)
-        return bows_da
-        
+        res = self.compute(bows_da)
+        print(f"results: {res}")
+        return DocumentArray(res=res)
+
+    def compute(self, bows_docarray):
+        res = []
+        for doc in bows_docarray:
+            tmp = []
+            for voc in self.vocab:
+                tmp.append(self.tfidf(voc, doc))
+            res.append(tmp)
+        return res
+
+    def tfidf(self, word, sentence):
+        # s = 0
+        # for doc in self.bows:
+        #     if word in doc.tags.get("data"):
+        #         s += 1
+        tf = sentence.tags.get("data").count(word) / len(sentence.tags.get("data"))
+        idf = np.log10(len(self.bows) / sum([1 for doc in self.bows if word in doc.tags.get("data")]))
+        return round(tf*idf, 4)
+
     def preprocess(self, docs):
         bow = [doc.text.lower().split(" ") for doc in docs]
         for bag in bow:
