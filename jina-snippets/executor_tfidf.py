@@ -27,7 +27,7 @@ class TFIDFer(Executor):
         out = DocumentArray()
         for sentence, score in res:
             print(sentence, score)
-            out.append(Document(tags={"sentence" : sentence, "score" : score}))
+            out.append(Document(embedding=np.array(score), tags={"sentence" : sentence, "score" : score}))
         return out
 
     def tfidf(self, word, sentence):
@@ -65,3 +65,10 @@ with f:
 print("[INFO] program complete.")
 print([[r[i].tags.get("sentence"), r[i].tags.get("score")] for i in range(len(r))])
 r.summary()
+
+
+example_embedded_query = np.random.random(len(r[0].tags.get("score")))
+print(f"query embedding: {example_embedded_query}")
+q = Document(embedding=example_embedded_query)
+q.match(r, use_numpy=True)
+q.summary()
