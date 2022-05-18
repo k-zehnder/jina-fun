@@ -13,16 +13,22 @@ class TFIDFer(Executor):
 
     @requests
     def run(self, docs, **kwargs):
-        bows_da = self.preprocess(docs)
-        res = self.compute(bows_da)
-        print(f"results: {res}")
-        return DocumentArray(res=res)
+        self.preprocess(docs)
+        return self.compute(self.bows)
 
     def compute(self, bows_docarray):
         res = []
         for doc in bows_docarray:
-            res.append([self.tfidf(voc, doc) for voc in self.vocab])
-        return res
+            sentence, score = " ".join(doc.tags.get("data")), [self.tfidf(voc, doc) for voc in self.vocab]
+            res.append([sentence, score])
+        return self.results_formatter(res)
+
+    def results_formatter(self, res):
+        out = DocumentArray()
+        for sentence, score in res:
+            print(sentence, score)
+            out.append(Document(tags={"sentence" : sentence, "score" : score}))
+        return out
 
     def tfidf(self, word, sentence):
         tf = sentence.tags.get("data").count(word) / len(sentence.tags.get("data"))
@@ -57,5 +63,5 @@ with f:
     print(f"results: {r}")
     
 print("[INFO] program complete.")
-print([r[i].tags.get("data") for i in range(len(r))])
+print([[r[i].tags.get("sentence"), r[i].tags.get("score")] for i in range(len(r))])
 r.summary()
