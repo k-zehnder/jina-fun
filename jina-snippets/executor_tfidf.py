@@ -53,7 +53,7 @@ f = (
     )
 )
 
-d1 = Document(text="is") # should be top result when matching to all zeros b/c should be all 0s
+d1 = Document(text="is") # should be top result when matching to all zeros b/c "is" should have no "tdift-multiplier" since the word "is" is so commom in all documents and included in all documents in the collection
 d2 = Document(text="The car is driven on the road")
 d3 = Document(text="The truck is driven on the highway")
 da = DocumentArray([d1, d2, d3])
