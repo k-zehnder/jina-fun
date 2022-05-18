@@ -14,11 +14,11 @@ class TFIDFer(Executor):
     @requests
     def run(self, docs, **kwargs):
         self.preprocess(docs)
-        return self.compute(self.bows)
+        return self.compute()
 
-    def compute(self, bows_docarray):
+    def compute(self):
         res = []
-        for doc in bows_docarray:
+        for doc in self.bows:
             sentence, score = " ".join(doc.tags.get("data")), [self.tfidf(voc, doc) for voc in self.vocab]
             res.append([sentence, score])
         return self.results_formatter(res)
