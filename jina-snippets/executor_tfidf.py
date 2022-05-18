@@ -53,10 +53,10 @@ f = (
     )
 )
 
-d1 = Document(text="The car is driven on the road")
-d2 = Document(text="The truck is driven on the highway")
-da = DocumentArray([d1, d2])
-
+d1 = Document(text="is") # should be top result when matching to all zeros b/c should be all 0s
+d2 = Document(text="The car is driven on the road")
+d3 = Document(text="The truck is driven on the highway")
+da = DocumentArray([d1, d2, d3])
 
 with f:
     r = f.index(da)
@@ -67,7 +67,8 @@ print([[r[i].tags.get("sentence"), r[i].tags.get("score")] for i in range(len(r)
 r.summary()
 
 
-example_embedded_query = np.random.random(len(r[0].tags.get("score")))
+# example_embedded_query = np.random.random(len(r[0].tags.get("score")))
+example_embedded_query = np.array([0.0] * len(r[0].tags.get("score")))
 print(f"query embedding: {example_embedded_query}")
 q = Document(embedding=example_embedded_query)
 q.match(r, use_numpy=True)
