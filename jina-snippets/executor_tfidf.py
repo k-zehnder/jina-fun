@@ -27,7 +27,7 @@ class TFIDFer(Executor):
         out = DocumentArray()
         for sentence, score in res:
             print(sentence, score)
-            out.append(Document(embedding=np.array(score), tags={"sentence" : sentence, "score" : score}))
+            out.append(Document(embedding=np.array(score), tags={"sentence" : sentence}))
         return out
 
     def tfidf(self, word, sentence):
@@ -41,7 +41,6 @@ class TFIDFer(Executor):
             self.bows.append(Document(tags={"data" : bag}))
             for word in bag:
                 self.vocab.add(word)
-        return self.bows
 
 f = (
     Flow()
@@ -63,12 +62,12 @@ with f:
     print(f"results: {r}")
     
 print("[INFO] program complete.")
-print([[r[i].tags.get("sentence"), r[i].tags.get("score")] for i in range(len(r))])
+print([[r[i].tags.get("sentence"), r[i].embedding] for i in range(len(r))])
 r.summary()
 
 
 # example_embedded_query = np.random.random(len(r[0].tags.get("score")))
-example_embedded_query = np.array([0.0] * len(r[0].tags.get("score")))
+example_embedded_query = np.array([0.0] * len(r[0].embedding))
 print(f"query embedding: {example_embedded_query}")
 q = Document(embedding=example_embedded_query)
 q.match(r, use_numpy=True)
