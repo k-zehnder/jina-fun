@@ -1,19 +1,13 @@
 """
 This script just demonstrates how to use a generator as Flow input, rather than inputting a big DocumentArray to Flow all at once.
 """
-import os
-
-import pandas as pd
-
 from jina import Document, DocumentArray, Flow
-
 from executors.clip import CLIPEncoder
-
 from helpers import clear_workspace, search_by_text_print_search_results
 
 
 # Don't just put documents into flow like below...
-da = DocumentArray.from_files("data/images/fashion_images_very_small/*.jpg", size=50)
+da = DocumentArray.from_files("./data/images/fashion_images_very_small/*.jpg", size=50)
 
 # put them into the Flow like this using a generator
 def my_input():

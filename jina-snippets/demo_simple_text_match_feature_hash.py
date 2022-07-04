@@ -6,17 +6,13 @@ This script is practice simple text matching using example from docs with batman
 # https://docarray.jina.ai/datatypes/text/?utm_source=learning-portal
 
 """
-
-import os
 from jina import Flow
 from docarray import Document, DocumentArray
-import pathlib
-import shutil
 from helpers import print_search_results, clear_workspace
 
 
 # --------- get data
-d = Document(uri='data/text/batman.txt').load_uri_to_text()
+d = Document(uri="./data/text/batman.txt").load_uri_to_text()
 d.summary()
 da = DocumentArray(Document(text=s.strip()) for s in d.text.split('\n') if s.strip())
 da.summary()
