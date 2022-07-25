@@ -1,0 +1,13 @@
+jtype: Flow
+with:
+  port: 8080
+  protocol: http
+  monitoring: True
+  cors: True
+executors:
+- name: encoder
+  uses: jinahub+docker://SpacyTextEncoder
+  install_requirements: True
+- name: indexer
+  uses: jinahub+docker://SimpleIndexer
+  install_requirements: True

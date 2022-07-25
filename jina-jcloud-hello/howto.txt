@@ -1,0 +1,9 @@
+Install requirements was a gamechangers inside .yaml!
+
+Client is important when working with jcloud.
+
+1. Index to cloud like you usually would.
+
+2. Then you can use the client to search, super cool!!!
+
+**dont have docker running at all and this works! heck ya!
